@@ -5,10 +5,10 @@
 // Variáveis globais
 float temperature, humidity, pressure, x, y, z, gx, gy, gz, mx, my, mz;
 unsigned long previousMillis = 0;  // Armazena o último tempo de execução
-const long interval = 2000;        // Intervalo de 2 segundos (2000 ms)
+const long interval = 1000;        // Intervalo de 1 segundos (1000 ms)
 
 // Variável para armazenar dados em formato CSV
-String csvHeader = "Timestamp,Temperature (C),Humidity (%),Pressure (hPa),Acc X,Acc Y,Acc Z,Gyro X,Gyro Y,Gyro Z,Mag X,Mag Y,Mag Z\n";
+String csvHeader = "Timestamp (s),Temperature (C),Humidity (%),Pressure (hPa),Acc X,Acc Y,Acc Z,Gyro X,Gyro Y,Gyro Z,Mag X,Mag Y,Mag Z\n";
 String csvData = csvHeader;        // Dados em CSV, começando pelo cabeçalho
 
 void setup() {
@@ -38,7 +38,7 @@ void setup() {
 void loop() {
   unsigned long currentMillis = millis();
 
-  // Executa apenas a cada 2 segundos
+  // Executa apenas a cada 1 segundo
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
 
@@ -59,9 +59,12 @@ void loop() {
       IMU.readMagneticField(mx, my, mz);
     }
 
+    // Timestamp em segundos
+    float timestamp = currentMillis / 1000.0;
+
     // Exibir dados no monitor serial
     Serial.print("Timestamp: ");
-    Serial.print(currentMillis / 1000.0);
+    Serial.print(timestamp);
     Serial.println(" s");
 
     Serial.print("Temperatura: ");
@@ -112,14 +115,17 @@ void loop() {
     Serial.print(mz);
     Serial.println(" µT");
 
+    // Armazenar os dados no formato CSV
+    csvData += String(timestamp) + "," + String(temperature) + "," + String(humidity) + "," + String(pressure) + ","
+               + String(x) + "," + String(y) + "," + String(z) + "," + String(gx) + "," + String(gy) + "," + String(gz) + ","
+               + String(mx) + "," + String(my) + "," + String(mz) + "\n";
+    
+    // Exibir a separação de blocos no monitor serial
     Serial.println("-------------------------");
 
-    // Armazenar os dados no formato CSV
-    String row = String(currentMillis / 1000.0) + "," + String(temperature) + "," +
-                 String(humidity) + "," + String(pressure) + "," +
-                 String(x) + "," + String(y) + "," + String(z) + "," +
-                 String(gx) + "," + String(gy) + "," + String(gz) + "," +
-                 String(mx) + "," + String(my) + "," + String(mz) + "\n";
-    csvData += row;
+    // Exibir CSV no monitor serial
+    // Serial.print(csvData); // Para exibir todos os dados CSV no monitor serial
+    // Se quiser armazenar ou enviar esses dados, pode fazer isso aqui
+    // Por exemplo, salvando em um cartão SD ou enviando para um servidor.
   }
 }
