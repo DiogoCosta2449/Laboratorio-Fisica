@@ -8,8 +8,9 @@ O objetivo deste laboratório é coletar, processar e visualizar dados de sensor
 
 ## Estrutura do Projeto
 
-- `LAB.py`: Script principal para coletar e processar os dados dos sensores.
+- `LAB.py`: Script para coletar e processar os dados dos sensores.
 - `sensor_data.csv`: Arquivo CSV contendo os dados coletados durante a execução do script.
+- `Arduino.ino`: Script principal para fazer a coleta de dados do arduino.
 
 ## Requisitos
 
