@@ -123,9 +123,6 @@ void loop() {
     // Exibir a separação de blocos no monitor serial
     Serial.println("-------------------------");
 
-    // Exibir CSV no monitor serial
-    // Serial.print(csvData); // Para exibir todos os dados CSV no monitor serial
-    // Se quiser armazenar ou enviar esses dados, pode fazer isso aqui
-    // Por exemplo, salvando em um cartão SD ou enviando para um servidor. teste
+
   }
 }
